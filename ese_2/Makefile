@@ -1,5 +1,5 @@
 
-NAME=process_ese3
+NAME=process_ese2
 CFLAGS=-Wall -std=c99
 INCLUDES=-I./inc
 
