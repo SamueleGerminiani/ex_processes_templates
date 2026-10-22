@@ -11,3 +11,4 @@ demo/hello
 demo/demo.log
 output.log
 marker.txt
+compile_commands.json
