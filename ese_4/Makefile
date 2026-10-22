@@ -1,20 +1,20 @@
 
-CFLAGS=-Wall -std=c99
+CFLAGS=-Wall -std=c99 -D_POSIX_C_SOURCE=200809L
 INCLUDES=-I./inc
 
-MOLTIPLICATORE_SRCS=src/moltiplicatore.c
-ESE4_SRCS=src/errExit.c src/generator.c
+GENERATOR_SRCS=src/errExit.c src/generator.c
+MULTIPLIER_SRCS=src/report.c src/multiplier.c
 
-MOLTIPLICATORE_OBJS=$(MOLTIPLICATORE_SRCS:.c=.o)
-ESE4_OBJS=$(ESE4_SRCS:.c=.o)
+GENERATOR_OBJS=$(GENERATOR_SRCS:.c=.o)
+MULTIPLIER_OBJS=$(MULTIPLIER_SRCS:.c=.o)
 
-all: moltiplicatore process_ese4
+all: generator multiplier
 
-moltiplicatore: $(MOLTIPLICATORE_OBJS)
+generator: $(GENERATOR_OBJS)
 	@echo "Making executable: "$@
 	@$(CC) $^ -o $@
 
-process_ese4: $(ESE4_OBJS)
+multiplier: $(MULTIPLIER_OBJS)
 	@echo "Making executable: "$@
 	@$(CC) $^ -o $@
 
@@ -22,8 +22,8 @@ process_ese4: $(ESE4_OBJS)
 	@echo "Compiling: "$<
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-.PHONY: clean
+.PHONY: all clean
 
 clean:
-	@rm -f src/*.o process_ese4 moltiplicatore
+	@rm -f src/*.o generator multiplier
 	@echo "Removed object files and executables..."

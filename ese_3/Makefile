@@ -1,6 +1,6 @@
 
 NAME=process_ese3
-CFLAGS=-Wall -std=c99
+CFLAGS=-Wall -std=c99 -D_POSIX_C_SOURCE=200809L
 INCLUDES=-I./inc
 
 SRCS=src/errExit.c src/main.c

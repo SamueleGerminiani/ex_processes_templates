@@ -1,9 +1,9 @@
 
 NAME=process_ese5
-CFLAGS=-Wall -std=c99
+CFLAGS=-Wall -std=c99 -D_POSIX_C_SOURCE=200809L
 INCLUDES=-I./inc
 
-SRCS=src/errExit.c src/main.c
+SRCS=src/errExit.c src/report.c src/main.c
 OBJS=$(SRCS:.c=.o)
 
 $(NAME): $(OBJS)
@@ -17,5 +17,5 @@ $(NAME): $(OBJS)
 .PHONY: clean
 
 clean:
-	@rm -f src/*.o $(NAME)
+	@rm -f src/*.o $(NAME) output.log
 	@echo "Removed object files and executable..."

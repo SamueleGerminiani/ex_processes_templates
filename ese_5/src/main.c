@@ -1,59 +1,65 @@
-#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
 #include "errExit.h"
+#include "report.h"
 
-const char *fileName = "myfile1";
+const char *logFile = "output.log";
 
 int main(int argc, char *argv[]) {
-    // Check command line input arguments
-    if (argc <= 1) {
-        printf("Usage: %s cmd [arguments]\n", argv[0]);
-        return 0;
+    // Check command line input arguments using 'argc'
+    if (argc < 2) {
+        printf("Usage: %s <command> [arguments...]\n", argv[0]);
+        return 1;
     }
 
-    switch (fork()) {
-        case -1: {
-            // In the parent process, handle the fork failure using 'errExit'
-            errExit("fork failed");
-        }
-        case 0: {
-            // In the child process:
+    // Create a child process using 'fork'
+    pid_t pid = -1;
 
-            // Close the standard output and error stream (file descriptors 1
-            // and 2) Close file descriptor 1 Close file descriptor 2
+    if (1 /*change this*/) {
+        // fork failed: print a message using 'errExit'
 
-            // Create a new file. The value returned by 'open' will be 1 as it
-            // is the lowest available file descriptor index.
-            int fd;
+    } else if (1 /*change this*/) {
+        // Child process:
 
-            if (fd == -1) errExit("open failed");
+        // Close the standard output and the standard error
+        // ('STDOUT_FILENO' and 'STDERR_FILENO') using 'close'
 
-            // Clone file descriptor 1. The value returned by 'dup' will be 2 as
-            // it is the lowest available file descriptor index. Both file
-            // descriptors 1 and 2 are now pointing to the created/ file.
 
-            // Replace the current process image with a new process image using
-            // 'execvp'
+        // Create/truncate the log file using 'open' with the flags
+        // O_WRONLY | O_CREAT | O_TRUNC and mode S_IRUSR | S_IWUSR.
+        // What file descriptor do you get? (use 'errExit' if it fails)
+        int fd = -1;
 
-            // If 'execvp' fails, handle the error using 'errExit'
-            errExit("execvp failed");
-        }
-        default: {
-            // In the parent process:
+        // Duplicate it using 'dup'. What file descriptor do you get?
 
-            int status;
-            // Wait for the termination of the child process
 
-            // Print the exit status of the executed command
-        }
+        // Replace the child with the command using 'execvp'
+        // (the command and its arguments start at argv[1])
+
+
+        // If exec fails, print an error message using 'errExit'
+
     }
 
+    // Parent process: wait for the termination of the child using 'wait'
+    // (use 'errExit' if it fails)
+    int status = 0;
+
+
+    // Print "command <command> terminated with status <WEXITSTATUS>"
+    // if the child exited ('WIFEXITED'), otherwise
+    // "command <command> killed by signal <WTERMSIG>"
+
+
+    // Case report (given): reveals code #5 when the error messages of the
+    // command end up in the log file
+    report_check(argv[1], status, logFile);
     return 0;
 }
-
