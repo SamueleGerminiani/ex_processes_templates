@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include "errExit.h"
+#include "report.h"
 
 #define BUFFER_SZ 4096
 
@@ -49,6 +50,9 @@ int main(int argc, char *argv[]) {
 
 
         printf("Dear %s, I am inside your home!\n", username);
+
+        // Case report (given): reveals code #3 when the process has moved
+        report_check(homeDir);
     }
 
     return 0;

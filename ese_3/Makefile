@@ -3,7 +3,7 @@ NAME=process_ese3
 CFLAGS=-Wall -std=c99 -D_POSIX_C_SOURCE=200809L
 INCLUDES=-I./inc
 
-SRCS=src/errExit.c src/main.c
+SRCS=src/errExit.c src/report.c src/main.c
 OBJS=$(SRCS:.c=.o)
 
 $(NAME): $(OBJS)

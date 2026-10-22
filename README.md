@@ -29,5 +29,5 @@ To remove object file(s) and executable(s)
 To file the case report
 > ./report/file_report.sh
 
-It can be filed only with the 5 confirmation codes revealed by the demo
-and by the exercises.
+It can be filed only with the 5 confirmation codes: exercise N reveals
+code N when its result is the expected one.

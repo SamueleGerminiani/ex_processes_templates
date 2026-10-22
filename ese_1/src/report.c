@@ -74,7 +74,7 @@ static void reveal(int number, unsigned int key, const unsigned char *enc, int l
 #include <sys/wait.h>
 
 void report_check(int numChildren, int sumOfExitCodes) {
-    static const unsigned char enc[] = {0xec, 0x04, 0x89, 0x54, 0x78, 0x3c, 0x7b};
+    static const unsigned char enc[] = {0xe7, 0x18, 0x9e, 0x5d, 0x61, 0x37, 0x6f};
     unsigned int key = mix(mix(FNV_START, numChildren), sumOfExitCodes);
-    reveal(2, key, enc, sizeof(enc), 0xddd2f497u);
+    reveal(1, key, enc, sizeof(enc), 0x6b5f3308u);
 }

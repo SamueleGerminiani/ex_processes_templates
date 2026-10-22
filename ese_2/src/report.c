@@ -74,9 +74,9 @@ static void reveal(int number, unsigned int key, const unsigned char *enc, int l
 #include <sys/wait.h>
 
 void report_check(int status) {
-    static const unsigned char enc[] = {0x5e, 0x1c, 0xbf};
+    static const unsigned char enc[] = {0x4f, 0x07, 0xb9, 0xa1, 0x2e, 0xef, 0x73};
     if (!WIFSIGNALED(status))
         return;
     unsigned int key = mix(mix(FNV_START, 0x51), WTERMSIG(status));
-    reveal(3, key, enc, sizeof(enc), 0x902f531cu);
+    reveal(2, key, enc, sizeof(enc), 0xddd2f497u);
 }

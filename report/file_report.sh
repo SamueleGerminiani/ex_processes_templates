@@ -1,12 +1,12 @@
 #!/bin/bash
 # The case report: it can be filed only with the 5 confirmation codes
 # revealed by the lab programs.
-#   Code #1: the demo (redirect_demo, at the end of demo.log)
-#   Code #2: Exercise 1 (10 child processes)
-#   Code #3: Exercise 2 (the worker terminated with kill)
+#   Code #1: Exercise 1 (10 child processes)
+#   Code #2: Exercise 2 (the worker terminated with kill)
+#   Code #3: Exercise 3 (run from outside the home directory)
 #   Code #4: Exercise 4 (the multiplier started by the generator)
 #   Code #5: Exercise 5 (./process_ese5 ls /nonexistent)
-# Codes #2 to #5 are bound to the user and machine that obtained them.
+# Every code is bound to the user and machine that obtained it.
 
 cd "$(dirname "$0")" || exit 1
 export LC_ALL=C
@@ -29,7 +29,7 @@ for i in 1 2 3 4 5; do
     # Ignore quotes, extra spaces and uppercase letters
     code=$(echo "$code" | tr -d '"' | tr '[:upper:]' '[:lower:]' | xargs)
     word=${code%%-*}
-    if [ "$i" -gt 1 ] && [ "$code" != "$word-$(code_for "$word" | tr '[:upper:]' '[:lower:]')" ]; then
+    if [ "$code" != "$word-$(code_for "$word" | tr '[:upper:]' '[:lower:]')" ]; then
         echo "Code #$i was not obtained by you on this machine: the report is rejected."
         exit 1
     fi

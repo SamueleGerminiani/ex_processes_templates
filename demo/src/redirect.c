@@ -8,16 +8,6 @@
 
 #include "errExit.h"
 
-/* Case report, code #1: written at the end of the log file. */
-static const char *code1(void) {
-    static char word[8];
-    const char enc[] = {0x0f, 0x0d, 0x17, 0x0c, 0x0c, 0x08, 0x00};
-    for (int i = 0; i < 7; i++)
-        word[i] = enc[i] ^ ('a' + i);
-    word[7] = '\0';
-    return word;
-}
-
 int main(int argc, char *argv[]) {
     printf("redirect_demo: PID %d\n", getpid());
     printf("look at /proc/%d/fd now (15 seconds)...\n", getpid());
@@ -41,7 +31,5 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "and so does this error message\n");
     fprintf(stderr, "look at /proc/%d/fd again (15 seconds)...\n", getpid());
     sleep(15);
-
-    printf("Case report, code #1: \"%s\"\n", code1());
     return 0;
 }
