@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Get the current working directory of the process using 'getcwd'
-    char buffer[BUFFER_SZ];
+    char buffer[BUFFER_SZ] = "";
 
 
     printf("Working directory: %s\n", buffer);
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
         printf("Dear %s, I am inside your home!\n", username);
 
         // Case report (given): reveals code #3 when the process has moved
-        report_check(homeDir);
+        report_check(homeDir, buffer);
     }
 
     return 0;

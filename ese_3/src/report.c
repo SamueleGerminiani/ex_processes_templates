@@ -71,18 +71,47 @@ static void reveal(int number, unsigned int key, const unsigned char *enc, int l
 }
 
 #include <fcntl.h>
-#include <limits.h>
+#include <sys/stat.h>
+#include <time.h>
 
-void report_check(const char *homeDir) {
+/* The exercise is correct only if:
+ *  - homeDir is the HOME of the environment and startDir, the working
+ *    directory read before moving, is outside it (the branch was taken
+ *    for the right reason);
+ *  - the process is now exactly in homeDir (chdir done);
+ *  - marker.txt in it is a regular, empty file with mode rw-------,
+ *    written in this run (open with O_CREAT | O_WRONLY | O_TRUNC and
+ *    S_IRUSR | S_IWUSR);
+ *  - the descriptor used to create it was closed (3 is free again).
+ */
+void report_check(const char *homeDir, const char *startDir) {
     static const unsigned char enc[] = {0x57, 0x4b, 0xec};
+    const char *envHome = getenv("HOME");
     char cwd[4096];
-    if (homeDir == NULL || getcwd(cwd, sizeof(cwd)) == NULL)
-        return;
-    /* The process must be in the home directory, with marker.txt in it */
-    int fd = open("marker.txt", O_RDONLY);
-    int moved = (strcmp(cwd, homeDir) == 0 && fd != -1);
-    if (fd != -1)
-        close(fd);
-    unsigned int key = mix(mix(FNV_START, 0x33), moved);
+    struct stat st;
+    int ok = 1;
+
+    if (homeDir == NULL || envHome == NULL || strcmp(homeDir, envHome) != 0)
+        ok = 0;
+    if (ok && (startDir == NULL || startDir[0] != '/' ||
+               strncmp(startDir, homeDir, strlen(homeDir)) == 0))
+        ok = 0;
+    if (ok && (getcwd(cwd, sizeof(cwd)) == NULL || strcmp(cwd, homeDir) != 0))
+        ok = 0;
+    if (ok && (stat("marker.txt", &st) == -1 || !S_ISREG(st.st_mode) ||
+               st.st_size != 0 || labs((long)(time(NULL) - st.st_mtime)) > 120))
+        ok = 0;
+    if (ok && (st.st_mode & 0777) != (S_IRUSR | S_IWUSR)) {
+        printf("marker.txt has the wrong permissions: remove it and run again\n");
+        ok = 0;
+    }
+    if (ok) {
+        int fd = open("marker.txt", O_RDONLY);
+        if (fd != 3) /* the descriptor of the exercise is still open */
+            ok = 0;
+        if (fd != -1)
+            close(fd);
+    }
+    unsigned int key = mix(mix(FNV_START, 0x33), ok);
     reveal(3, key, enc, sizeof(enc), 0x902f531cu);
 }
