@@ -3,7 +3,7 @@
 
 /* Case report code: you do not need to read or modify this file :)
  *
- * report_check reveals code #2 when the exit codes of 10 children
+ * report_check reveals code #1 when the exit codes of 10 children
  * have been collected correctly. The code is bound to the current
  * user and machine.
  */

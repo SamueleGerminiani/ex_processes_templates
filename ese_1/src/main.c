@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
 
     printf("all %d children terminated, sum of the exit codes: %d\n", n, sum);
 
-    // Case report (given): reveals code #2 with 10 children
+    // Case report (given): reveals code #1 with 10 children
     report_check(n, sum);
     return 0;
 }

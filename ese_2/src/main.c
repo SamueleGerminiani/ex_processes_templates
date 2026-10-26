@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     //        "monitor: worker <pid> killed by signal <WTERMSIG> (<strsignal>)"
 
 
-    // Case report (given): reveals code #3 when the worker is terminated
+    // Case report (given): reveals code #2 when the worker is terminated
     report_check(status);
     return 0;
 }
