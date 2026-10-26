@@ -25,6 +25,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Get the current working directory of the process using 'getcwd'
+    // (use 'errExit' if it fails)
     char buffer[BUFFER_SZ] = "";
 
 
@@ -36,24 +37,36 @@ int main(int argc, char *argv[]) {
 
     if (inside) {
         printf("Dear %s, I am already in the right place!\n", username);
-    } else {
-        // Move the process into the home directory using 'chdir'
-        // (use 'errExit' if it fails)
-
-
-        // Create the empty file "marker.txt" using 'open' with the flags
-        // O_CREAT | O_WRONLY | O_TRUNC and mode S_IRUSR | S_IWUSR
-        // (use 'errExit' if it fails)
-        int fd = -1;
-
-        // Close the file descriptor using 'close'
-
-
-        printf("Dear %s, I am inside your home!\n", username);
-
-        // Case report (given): reveals code #3 when the process has moved
-        report_check(homeDir, buffer);
+        return 0;
     }
 
+    // Bookmark the start directory: open "." with O_RDONLY and keep the
+    // file descriptor (use 'errExit' if it fails)
+    int startFd = -1;
+
+    // Move the process into the home directory using 'chdir'
+    // (use 'errExit' if it fails)
+
+
+    // Create the empty file "marker.txt" using 'open' with the flags
+    // O_CREAT | O_WRONLY | O_TRUNC and mode S_IRUSR | S_IWUSR
+    // (use 'errExit' if it fails)
+    int fd = -1;
+
+    // Close the file descriptor of marker.txt using 'close'
+
+
+    printf("Dear %s, I left a marker in your home!\n", username);
+
+    // Return to the start directory using 'fchdir' on the bookmark
+    // (use 'errExit' if it fails), then close the bookmark using 'close'
+
+
+    // Read the working directory again using 'getcwd' and print
+    // "Back in <directory>"
+
+
+    // Case report (given): reveals code #3 after the round trip
+    report_check(homeDir, buffer);
     return 0;
 }
